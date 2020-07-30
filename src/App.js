@@ -29,22 +29,20 @@ class App extends React.Component {
         })
 	}
 	
-	submitFormData(event) {
-		event.preventDefault();
+	submitFormData(data) {
 		let url = "http://localhost:3000/posts";
         fetch(url, {
 			method: 'POST',
-			body: JSON.stringify(this.state),
+			body: JSON.stringify(data),
 			headers: {
 				"Content-Type": 'application/json'
 			},
 			mode:'cors'
 		})
-		.then(res => res.json())
-		.then(data => {
+		.then(res => {
 			this.setState({
 				reLoad: true
-			})
+			});
 		})
         .catch(error => {
             console.log(error);
@@ -56,7 +54,7 @@ class App extends React.Component {
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-sm-4">
-						<Form submitFormData={this.submitFormData}/>
+						<Form handleSubmit={this.submitFormData}/>
 					</div>
 					<div className="col-sm-8">
 						<List items={this.state.items}/>
