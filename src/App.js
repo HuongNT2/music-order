@@ -7,8 +7,7 @@ class App extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			items: [],
-			reLoad: false
+			items: []
 		};
 
 		this.submitFormData = this.submitFormData.bind(this);
@@ -41,7 +40,7 @@ class App extends React.Component {
 		})
 		.then(res => {
 			this.setState({
-				reLoad: true
+				items:this.state.items.concat(data)
 			});
 		})
         .catch(error => {
