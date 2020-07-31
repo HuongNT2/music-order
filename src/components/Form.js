@@ -32,29 +32,36 @@ class Form extends React.Component {
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
-				<div className="form-group">
-					<label>Link</label>
-					<input type="text" className="form-control" name="link" onChange={this.handleChange} placeholder="http://..." />
+			<div className="card">
+				<h5 className="card-header info-color white-text text-center py-4">
+					<strong>Order Music</strong>
+				</h5>
+				<div className="card-body px-lg-5 pt-0">
+					<form onSubmit={this.handleSubmit}>
+						<div className="form-group">
+							<label>Link</label>
+							<input type="text" className="form-control" name="link" onChange={this.handleChange} placeholder="http://..." />
+						</div>
+						<div className="form-group">
+							<label>Bài hát</label>
+							<input type="text" className="form-control" name="nameSing" onChange={this.handleChange} placeholder="Tên bài hát..." />
+						</div>
+						<div className="form-group">
+							<label>Người gửi</label>
+							<input type="text" className="form-control" name="nameSender" onChange={this.handleChange} placeholder="Họ và tên..." />
+						</div>
+						<div className="form-group">
+							<label>Người nhận</label>
+							<input type="text" className="form-control" name="nameReceiver" onChange={this.handleChange} placeholder="Họ và tên..." />
+						</div>
+						<div className="form-group">
+							<label>Lời nhắn</label>
+							<input type="text" className="form-control" name="message" onChange={this.handleChange} placeholder="Viết lời nhắn..." />
+						</div>
+						<button type="submit" className="btn btn-primary">Submit</button>
+					</form>
 				</div>
-				<div className="form-group">
-					<label>Bài hát</label>
-					<input type="text" className="form-control" name="nameSing" onChange={this.handleChange} placeholder="Tên bài hát..." />
-				</div>
-				<div className="form-group">
-					<label>Người gửi</label>
-					<input type="text" className="form-control" name="nameSender" onChange={this.handleChange} placeholder="Họ và tên..." />
-				</div>
-				<div className="form-group">
-					<label>Người nhận</label>
-					<input type="text" className="form-control" name="nameReceiver" onChange={this.handleChange} placeholder="Họ và tên..." />
-				</div>
-				<div className="form-group">
-					<label>Lời nhắn</label>
-					<input type="text" className="form-control" name="message" onChange={this.handleChange} placeholder="Viết lời nhắn..." />
-				</div>
-				<button type="submit" className="btn btn-primary">Submit</button>
-			</form>
+			</div>
 		);
     }
 }

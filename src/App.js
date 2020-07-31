@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import Form from './components/Form.js';
 import List from './components/List.js';
 
@@ -14,7 +15,7 @@ class App extends React.Component {
 	}
 	
 	componentDidMount() {
-        let url = "http://localhost:3000/posts";
+        const url = "https://music-order-server.herokuapp.com/posts";
         fetch(url)
         .then(res => res.json())
         .then(data => {
@@ -29,7 +30,7 @@ class App extends React.Component {
 	}
 	
 	submitFormData(data) {
-		let url = "http://localhost:3000/posts";
+		const url = "https://music-order-server.herokuapp.com/posts";
         fetch(url, {
 			method: 'POST',
 			body: JSON.stringify(data),
@@ -51,13 +52,16 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="container-fluid">
+				<div className="mask rgba-gradient">
 				<div className="row">
 					<div className="col-sm-4">
 						<Form handleSubmit={this.submitFormData}/>
 					</div>
-					<div className="col-sm-8">
+					<div className="col-sm-1"></div>
+					<div className="col-sm-7">
 						<List items={this.state.items}/>
 					</div>
+				</div>
 				</div>
 			</div>
 		);
