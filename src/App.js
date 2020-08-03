@@ -8,19 +8,30 @@ class App extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			items: []
+			items: [],
+			offset: 0,
+			perPage: 3,
+			currentPage: 0
 		};
 
 		this.submitFormData = this.submitFormData.bind(this);
+		this.handlePageClick = this.handlePageClick.bind(this);
 	}
 	
 	componentDidMount() {
-        const url = "https://music-order-server.herokuapp.com/posts";
+        this.getData();
+	}
+
+	getData() {
+		const url = "https://music-order-server.herokuapp.com/posts";
         fetch(url)
         .then(res => res.json())
         .then(data => {
+			let dataReverse = data.reverse();
+			let dataPerPage = dataReverse.slice(this.state.offset, this.state.offset + this.state.perPage);
             this.setState({
-                items: data
+				items: dataPerPage,
+				totalPage: Math.ceil(data.length / this.state.perPage)
             })
         
         })
@@ -28,6 +39,19 @@ class App extends React.Component {
             console.log(error);
         })
 	}
+
+	handlePageClick(e) {
+        const selectedPage = e.selected;
+        const offset = selectedPage * this.state.perPage;
+
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        }, () => {
+            this.getData()
+        });
+
+    };
 	
 	submitFormData(data) {
 		const url = "https://music-order-server.herokuapp.com/posts";
@@ -39,10 +63,12 @@ class App extends React.Component {
 			},
 			mode:'cors'
 		})
-		.then(res => {
-			this.setState({
-				items:this.state.items.concat(data)
-			});
+		.then(res => res.json())
+        .then(data => {
+			this.getData();
+			// this.setState({
+			// 	items: [data].concat(this.state.items),
+			// });
 		})
         .catch(error => {
             console.log(error);
@@ -59,7 +85,7 @@ class App extends React.Component {
 					</div>
 					<div className="col-sm-1"></div>
 					<div className="col-sm-7">
-						<List items={this.state.items}/>
+						<List items={this.state.items} handlePageClick={this.handlePageClick} totalPage={this.state.totalPage} />
 					</div>
 				</div>
 				</div>

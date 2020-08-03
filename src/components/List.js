@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from './Modal.js';
 import logo from '../assets/music-image.jpg';
+import ReactPaginate from 'react-paginate';
 
 class List extends React.Component {
 	constructor(props) {
@@ -11,14 +12,18 @@ class List extends React.Component {
         };
 
         this.handleClick = this.handleClick.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
     }
 
     handleClick(item) {
-        console.log('item click:' + item.id);
         this.setState({
             showModal: true,
             modalData: item
         });
+    }
+
+    handlePageClick(event) {
+        this.props.handlePageClick && this.props.handlePageClick(event);
     }
 
 	render() {
@@ -85,6 +90,16 @@ class List extends React.Component {
                         </div>
                     )
                 }
+                <ReactPaginate
+                    previousLabel={"prev"}
+                    nextLabel={"next"}
+                    breakLabel={"..."}
+                    pageCount={this.props.totalPage}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={"pagination"}
+                    activeClassName={"active"}/>
             </div>
         );
 	}
