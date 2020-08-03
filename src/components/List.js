@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from './Modal.js';
-import logo from '../assets/music-note.png';
+import logo from '../assets/music-image.jpg';
 
 class List extends React.Component {
 	constructor(props) {
@@ -35,13 +35,15 @@ class List extends React.Component {
                     items.map((item) =>
                         <div className="row order" key={item.id}>
                             <div className="col-md-3">
-                                <div className="view z-depth-1 rounded">
+                                <div className="view z-depth-1 rounded video-thums">
                                     {item.link.match(regExp)
-                                        ? <a className="link-image" target="_blank" href={item.link}>
+                                        ? <a className="link-image" data-toggle="modal" data-target={"#modal" + item.id} onClick={() => this.handleClick(item)}>
                                             <img className="rounded img-fluid" src={logo} alt="Video title" />
+                                            <i className="fa fa-play"></i>
                                         </a>
-                                        : <a className="link-image" data-toggle="modal" data-target={"#modal" + item.id} onClick={() => this.handleClick(item)}>
+                                        : <a className="link-image" target="_blank" href={item.link}>
                                             <img className="rounded img-fluid" src={logo} alt="Video title" />
+                                            <i className="fa fa-play"></i>
                                         </a>
                                     }
                                 </div>
@@ -60,11 +62,11 @@ class List extends React.Component {
                                         <p>
                                             <span className="from-to">Do </span>
                                             <span className="short-name" data-toggle="tooltip" title="" data-original-title={item.nameSender}>  
-                                                <b>{item.nameSender}</b>
+                                                <b>{item.nameSender ? item.nameSender : '...'}</b>
                                             </span>
                                             <span className="from-to">&nbsp;gửi đến&nbsp;</span>
                                             <span className="short-name" data-toggle="tooltip" title={item.nameReceiver}> 
-                                                <b>{item.nameReceiver}</b>
+                                                <b>{item.nameReceiver ? item.nameReceiver : '...'}</b>
                                             </span>
                                         </p>
                                         <div className="box-mess">
