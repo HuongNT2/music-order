@@ -1,4 +1,6 @@
 import React from 'react';
+import { setDatas } from '../services/musicService';
+import { validateForm } from '../utils/utils';
 
 class Form extends React.Component {
 	constructor(props) {
@@ -16,41 +18,6 @@ class Form extends React.Component {
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleValidation = this.handleValidation.bind(this);
-	}
-
-	handleValidation() {
-		let fields = this.state.fields;
-        let errors = {};
-        let formIsValid = true;
-
-        //Link
-        if(!fields["link"]){
-           formIsValid = false;
-           errors["link"] = "Link bài hát là bắt buộc!";
-        }
-
-        if(typeof fields["link"] !== "undefined"){
-           if(!fields["link"].match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)){
-              formIsValid = false;
-              errors["link"] = "Hãy nhập link là một url!";
-           }
-        }
-
-        //nameSing
-        if(!fields["nameSing"]){
-           formIsValid = false;
-           errors["nameSing"] = "Hãy nhập tên bài hát!";
-		}
-
-		//message
-        if(!fields["message"]){
-			formIsValid = false;
-			errors["message"] = "Hãy nhập lời nhắn!";
-		 }
-
-       this.setState({errors: errors});
-       return formIsValid;
 	}
 
 	handleChange(event) {
@@ -64,12 +31,18 @@ class Form extends React.Component {
 		});
 	}
 
-	handleSubmit(event) {
+	async handleSubmit(event) {
 		event.preventDefault();
-		if (this.handleValidation()) {
-			this.props.handleSubmit && this.props.handleSubmit(this.state.fields);
-		} else {
-			console.log('Form errors');
+		try {
+			const errorsForm = validateForm(this.state.fields);
+			if (Object.keys(errorsForm).length) {
+				this.setState({errors: errorsForm});
+				return;
+			}
+			await setDatas(this.state.fields);
+			this.props.handleSubmited();
+		} catch (err) {
+			console.log(err)
 		}
 	}
 

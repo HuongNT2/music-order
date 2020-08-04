@@ -1,33 +1,63 @@
 import React from 'react';
+import { getDatas } from '../services/musicService';
 import Modal from './Modal.js';
 import logo from '../assets/music-image.jpg';
-import ReactPaginate from 'react-paginate';
+import Pagination from "react-js-pagination";
 
 class List extends React.Component {
 	constructor(props) {
         super(props);
         this.state = {
+            items: [],
+            total: 0,
+            activePage: 1,
             showModal: false,
-            modalData: {}
+            modalData: {},
         };
 
-        this.handleClick = this.handleClick.bind(this);
-        this.handlePageClick = this.handlePageClick.bind(this);
+        this.handleClickModal = this.handleClickModal.bind(this);
+        this.handlePageChange = this.handlePageChange.bind(this);
     }
 
-    handleClick(item) {
+    async componentDidMount() {
+		try {
+            const result = await getDatas();
+            this.setState({items: result.data, total: result.total});
+		} catch (err) {
+			console.log(err)
+		}
+    }
+
+    async componentDidUpdate(prevProps) {
+        if (this.props.isSubmited === prevProps.isSubmited){
+           return;
+        }
+        try {
+            const result = await getDatas();
+            this.setState({items: result.data, total: result.total});
+		} catch (err) {
+			console.log(err)
+		}
+    }
+
+    handleClickModal(item) {
         this.setState({
             showModal: true,
             modalData: item
         });
     }
 
-    handlePageClick(event) {
-        this.props.handlePageClick && this.props.handlePageClick(event);
+    async handlePageChange(pageNumber) {
+        try {
+            const result = await getDatas(pageNumber);
+            this.setState({activePage: pageNumber, items: result.data, total: result.total});
+		} catch (err) {
+			console.log(err)
+		}
     }
 
 	render() {
-        const items = this.props.items;
+        const items = this.state.items;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
         const showModal = this.state.showModal;
         return (
@@ -42,7 +72,7 @@ class List extends React.Component {
                             <div className="col-md-3">
                                 <div className="view z-depth-1 rounded video-thums">
                                     {item.link.match(regExp)
-                                        ? <a className="link-image" data-toggle="modal" data-target={"#modal" + item.id} onClick={() => this.handleClick(item)}>
+                                        ? <a className="link-image" data-toggle="modal" data-target={"#modal" + item.id} onClick={() => this.handleClickModal(item)}>
                                             <img className="rounded img-fluid" src={logo} alt="Video title" />
                                             <i className="fa fa-play"></i>
                                         </a>
@@ -90,16 +120,14 @@ class List extends React.Component {
                         </div>
                     )
                 }
-                <ReactPaginate
-                    previousLabel={"prev"}
-                    nextLabel={"next"}
-                    breakLabel={"..."}
-                    pageCount={this.props.totalPage}
-                    marginPagesDisplayed={2}
+                <Pagination
+                    itemClass="page-item"
+                    linkClass="page-link"
+                    activePage={this.state.activePage}
+                    totalItemsCount={this.state.total}
                     pageRangeDisplayed={5}
-                    onPageChange={this.handlePageClick}
-                    containerClassName={"pagination"}
-                    activeClassName={"active"}/>
+                    onChange={this.handlePageChange}
+                />
             </div>
         );
 	}
