@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/music-image.jpg';
+import { getIdYoutube } from '../utils/utils';
 
 class Item extends React.Component {
 	constructor(props) {
@@ -21,7 +22,7 @@ class Item extends React.Component {
                     <div className="view z-depth-1 rounded video-thums">
                         {item.link.match(regExp)
                             ? <a className="link-image" data-toggle="modal" data-target={"#modal" + item.id} onClick={() => this.handleClickModal(item)}>
-                                <img className="rounded img-fluid" src={logo} alt="Video title" />
+                                <img className="rounded img-fluid" src={`https://img.youtube.com/vi/${getIdYoutube(item.link)}/0.jpg`} alt="Video title" />
                                 <i className="fa fa-play"></i>
                             </a>
                             : <a className="link-image" target="_blank" href={item.link}>
