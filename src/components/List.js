@@ -1,7 +1,7 @@
 import React from 'react';
 import { getDatas } from '../services/musicService';
 import Modal from './Modal.js';
-import logo from '../assets/music-image.jpg';
+import './List.css';
 import Pagination from "react-js-pagination";
 import Item from './Item';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { setDatas } from '../services/musicService';
 import { validateForm } from '../utils/utils';
+import './Form.css';
 
 class Form extends React.Component {
 	constructor(props) {

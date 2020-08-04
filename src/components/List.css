@@ -1,0 +1,26 @@
+.rounded.img-fluid {
+    width: 220px;
+    height: 180px;
+}
+  
+.link-image {
+    cursor: pointer;
+}
+  
+.row.order {
+    background-color: white;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    margin-bottom: 20px;
+}
+
+.video-thums .fa-play{
+  color: #ffffffff;
+  font-size: 60px;
+  opacity: 0.6;
+  position: absolute;
+  right: 45%;
+  top: 31%;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+}
+
